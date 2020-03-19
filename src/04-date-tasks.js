@@ -83,9 +83,23 @@ function isLeapYear( date ) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
-}
+function timeSpanToString( startDate, endDate ) {  
+   let int = new Date(endDate) - new Date(startDate);
+   let days = Math.floor(int / (1000 * 60 * 60 * 24));
+   int -=  days * (1000 * 60 * 60 * 24);
+   let hours = Math.floor(int / (1000 * 60 * 60));
+   hours<10?hours='0'+hours:hours;  
+   int -= hours * (1000 * 60 * 60);
+   let mins = Math.floor(int / (1000 * 60));
+   mins<10?mins='0'+mins:mins;
+   int -= mins * (1000 * 60);
+   let seconds = Math.floor(int / (1000));
+   seconds<10?seconds='0'+seconds:seconds;
+   int -= seconds * (1000);
+   let milisec = Math.floor(int);
+   milisec<10?milisec='00'+milisec:milisec<10?milisec='0'+milisec:milisec;  
+   return `${hours}:${mins}:${seconds}.${milisec}`;
+ }
 
 
 /**
@@ -102,8 +116,13 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands( date ) {
+  h = date.getUTCHours();
+  m = date.getUTCMinutes(); 
+  if(h>12) h=h-12;  
+  let ang = Math.abs((h * 30) - (m * 6));
+  if(ang>180) ang=ang-180;
+  return `${ang} deg`;
 }
 
 
