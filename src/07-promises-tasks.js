@@ -28,20 +28,20 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe( isPositiveAnswer ) {
-   return new Promise((resolve, reject) => {
-    if(isPositiveAnswer===true) {
-       const successMessage = 'Hooray!!! She said "Yes"!';
-       resolve(successMessage);
-    } else if(isPositiveAnswer===false){
-       const falseMessage = 'Oh no, she said "No".';
-       resolve(falseMessage);
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    if (isPositiveAnswer === true) {
+      const successMessage = 'Hooray!!! She said "Yes"!';
+      resolve(successMessage);
+    } else if (isPositiveAnswer === false) {
+      const falseMessage = 'Oh no, she said "No".';
+      resolve(falseMessage);
     } else {
       const errorMessage = 'Wrong parameter is passed! Ask her again.';
       reject(errorMessage);
     }
- });
- }
+  });
+}
 
 
 /**
@@ -59,8 +59,8 @@ function willYouMarryMe( isPositiveAnswer ) {
  *    })
  *
  */
-function processAllPromises( array ) {
-  return Promise.all(array).then(response => console.log(response));
+function processAllPromises(array) {
+  return Promise.all(array).then((response) => response);
 }
 
 /**
@@ -82,13 +82,11 @@ function processAllPromises( array ) {
  *    })
  *
  */
-function getFastestPromise( array ) {
+function getFastestPromise(array) {
   return new Promise(
-    resolve => 
-      promises.forEach(
-        promise => 
-          promise.then(resolve)
-      )
+    (resolve) => array.forEach(
+      (promise) => promise.then(resolve),
+    ),
   );
 }
 

@@ -24,9 +24,9 @@
  *
  */
 function getComposition(f, g) {
-  return function(x){
-        return g(f(x));
-    };
+  return function comp(x) {
+    return g(f(x));
+  };
 }
 
 
@@ -46,10 +46,10 @@ function getComposition(f, g) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction( exponent ) {
-  return function(x){
-        return Math.pow(x, exponent);
-    };
+function getPowerFunction(exponent) {
+  return function power(x) {
+    return x ** exponent;
+  };
 }
 
 
@@ -67,14 +67,14 @@ function getPowerFunction( exponent ) {
  *   getPolynom()      => null
  */
 function getPolynom(...args) {
-  return (x)=>{
+  return (x) => {
     let y;
-    for(i=0;i<args.length;i++){
-      y+=args[i]*Math.pow(x,args.length-1-i);
-    }     
-      return y;    
-    }  
+    for (let i = 0; i < args.length; i += 1) {
+      y += x ** (args.length - 1 - i) * args[i];
+    }
+    return y;
   };
+}
 
 
 /**
@@ -91,20 +91,15 @@ function getPolynom(...args) {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize( func ) {
-  var cache = {};
-    return function(){
-      var key = JSON.stringify(arguments);
-      if (cache[key]){
-        console.log(cache)
-        return cache[key];
-      }
-      else{
-        val = func.apply(null, arguments);
-        cache[key] = val;
-        return val; 
-      }
-  }
+function memoize(func) {
+  const cache = {};
+  return (...args) => {
+    const n = args[0];
+    if (n in cache) return cache[n];
+    const result = func(n);
+    cache[n] = result;
+    return result;
+  };
 }
 
 
@@ -123,17 +118,18 @@ function memoize( func ) {
  * }, 2);
  * retryer() => 2
  */
-function retry( func, attempts ) {
-  return async function(...args) {
-     for(const i = 0; i < attempts; i++) {
-       try {
-         await fn.call(this, ...args); 
-       } catch (e) {
-          if(attempts > 0) return attempts;
-          else throw e;
-       }
-     }
-   }
+function retry(func, attempts) {
+  return (...args) => {
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        func.call(this, ...args);
+      } catch (e) {
+        if (attempts > 0) return attempts;
+        throw e;
+      }
+    }
+    return attempts;
+  };
 }
 
 
@@ -160,16 +156,18 @@ function retry( func, attempts ) {
  * cos(3.141592653589793) ends
  *
  */
-function logger( func, logFunc ) {   
-  let newFn  = function() {    
-    console.log(func.name,'(');    
-    logFunc.apply(func, arguments);
-    console.log(')starts');
-    console.log(func.name,'(');
-    logFunc.apply(func, arguments),
-    console.log(')ending');    
-  };  
-  return newFn;
+function logger(func, logFunc) {
+  return (...args) => {
+    const newFn = function log() {
+    // console.log(func.name, '(');
+      logFunc.apply(func, ...args);
+      // console.log(')starts');
+      // console.log(func.name, '(');
+      logFunc.apply(func, ...args);
+    // console.log(')ending');
+    };
+    return newFn;
+  };
 }
 
 /**
@@ -185,7 +183,7 @@ function logger( func, logFunc ) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments( fn, ...args1) {
+function partialUsingArguments(fn, ...args1) {
   return fn.bind(null, ...args1);
 }
 
@@ -207,12 +205,13 @@ function partialUsingArguments( fn, ...args1) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction( startFrom ) {  
-  return function(){
-    startFrom++;    
-    return startFrom-1;    
-  }
-};  
+function getIdGeneratorFunction(startFrom) {
+  let st = startFrom;
+  return function generator() {
+    st += 1;
+    return st - 1;
+  };
+}
 
 
 module.exports = {
