@@ -66,9 +66,8 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  return value.substr(7);
+  return value.slice(7, -1);
 }
-
 
 /**
  * Returns a first char of the given string.
@@ -248,11 +247,13 @@ function getRectangleString(width, height) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-
 function encodeToRot13(str) {
-  return str.replace(/[a-zA-Z]/g, (c) => String.fromCharCode((c <= 'Z' ? 90 : 122) >= (c.charCodeAt(0) + 13 ? c : c - 26)));
+  return str.replace(/[a-zA-Z]/g, (c) => {
+    const a = c <= 'Z' ? 90 : 122;
+    const b = c.charCodeAt(0) + 13;
+    return String.fromCharCode(a >= b ? b : b - 26);
+  });
 }
-
 /**
  * Returns true if the value is string; otherwise false.
  * @param {string} value

@@ -36,10 +36,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const arr = [];
-  for (let i = 1; i < len * 2; i += 2) {
-    arr.push(i);
-  }
+  const arr = Array.from({ length: len }, (v, k) => 1 + 2 * k);
   return arr;
 }
 
@@ -150,11 +147,7 @@ function getStringsLength(arr) {
  *    [ 1, 'b', 'c'], 0, 'x'  => [ 'x', 1, 'b', 'c' ]
  */
 function insertItem(arr, item, index) {
-  return [
-    ...arr.slice(0, index),
-    item,
-    ...arr.slice(index),
-  ];
+  return arr.splice(index, 0, item);
 }
 
 /**
@@ -295,7 +288,7 @@ function getSecondItems(arr) {
 function propagateItemsByPositionIndex(arr) {
   const array = [];
   for (let i = 0; i < arr.length; i += 1) {
-    for (let j = 0; j <= i; j = i + 1) {
+    for (let j = 0; j <= i; j += 1) {
       array.push(arr[i]);
     }
   }
@@ -620,10 +613,12 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
+  let array = [];
+  array = arr;
   for (let i = 0; i < indexes.length; i += 1) {
-    arr.splice(i, 1, indexes[i]);
+    array = array[indexes[i]];
   }
-  return arr;
+  return array;
 }
 
 
@@ -652,7 +647,7 @@ function swapHeadAndTail(arr) {
   const x = Math.round(arr.length / 2, arr.length);
   const y = arr[Math.round(arr.length / 2) - 1];
   const z = arr.slice(0, Math.round(arr.length / 2) - 1);
-  return arr.slice(x.concat(y, z));
+  return arr.slice(x).concat(y, z);
 }
 
 
