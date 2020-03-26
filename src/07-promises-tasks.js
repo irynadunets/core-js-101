@@ -30,15 +30,14 @@
  */
 function willYouMarryMe(isPositiveAnswer) {
   return new Promise((resolve, reject) => {
-    if (isPositiveAnswer === true) {
-      const successMessage = 'Hooray!!! She said "Yes"!';
-      resolve(successMessage);
-    } else if (isPositiveAnswer === false) {
+    if (typeof isPositiveAnswer !== 'boolean') {
+      reject(new Error('Wrong parameter is passed! Ask her again.'));
+    } if (isPositiveAnswer === false) {
       const falseMessage = 'Oh no, she said "No".';
       resolve(falseMessage);
-    } else {
-      const errorMessage = 'Wrong parameter is passed! Ask her again.';
-      reject(errorMessage);
+    } if (isPositiveAnswer === true) {
+      const successMessage = 'Hooray!!! She said "Yes"!';
+      resolve(successMessage);
     }
   });
 }
@@ -83,11 +82,7 @@ function processAllPromises(array) {
  *
  */
 function getFastestPromise(array) {
-  return new Promise(
-    (resolve) => array.forEach(
-      (promise) => promise.then(resolve),
-    ),
-  );
+  return Promise.race(array);
 }
 
 /**

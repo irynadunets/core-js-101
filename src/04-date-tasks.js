@@ -121,7 +121,8 @@ function angleBetweenClockHands(date) {
   if (h > 12) h -= 12;
   let ang = Math.abs((h * 30) - (m * 6));
   if (ang > 180) ang -= 180;
-  return `${ang} deg`;
+  const rd = Math.PI / 180;
+  return Math.abs(ang * rd);
 }
 
 

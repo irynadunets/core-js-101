@@ -332,17 +332,17 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 
-function digitalSum(num) {
-  let sum = 0;
-  let n = num;
-  while (Math.trunc(n) > 10) {
-    sum += num % 10;
-    n = Math.trunc(n / 10);
-  }
-  return sum + n;
-}
 
 function getDigitalRoot(num) {
+  function digitalSum(n) {
+    let sum = 0;
+    let nm = n;
+    while (nm > 9) {
+      sum += nm % 10;
+      nm = Math.trunc(nm / 10);
+    }
+    return sum + nm;
+  }
   let n = num;
   while (n > 9) {
     n = digitalSum(n);
@@ -426,6 +426,10 @@ function getCommonDirectoryPath(pathes) {
   const element = (i) => (arr) => arr[i];
   const transform = (arr) => arr[0].map((e, i) => arr.map(element(i)));
   const check = (arr) => arr.every((e) => e === arr[0]);
+  if (pathes.every((e) => e.charAt() === '/')) {
+    return transform(splitStr(pathes, '/')).filter(check).map(element(0)).join('/')
+      .concat('/');
+  }
   return transform(splitStr(pathes, '/')).filter(check).map(element(0)).join('/');
 }
 
@@ -490,11 +494,15 @@ function evaluateTicTacToePosition(position) {
       return position[0][0];
     }
   }
-
+  if (position[2][0] === position[1][1] && position[1][1] === position[0][2]) {
+    if ((position[0][0] === position[0][2]) !== undefined) {
+      return position[2][0];
+    }
+  }
   for (let i = 0; i < position.length; i += 1) {
     if (position[i][0] === position[i][1] && position[i][1] === position[i][2]) {
-      if ((position[i][0] === position[i][3]) !== undefined) {
-        return position[i][1];
+      if ((position[i][0] === position[i][2]) !== undefined) {
+        return position[i][0];
       }
     }
   }

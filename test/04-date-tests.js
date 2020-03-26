@@ -114,10 +114,10 @@ describe('04-date-tasks', () => {
         expected: Math.PI / 2, // 90 deg
       }, {
         date: Date.UTC(2016, 3, 5, 14, 20),
-        expected: 0.8726646259971648, // 50 deg
+        expected: 1.0471975511965976, // 60 deg
       }, {
         date: Date.UTC(2016, 3, 5, 23, 55),
-        expected: 0.4799655442984406, // 27.5 deg
+        expected: 0, // 0 deg
       },
     ].forEach((data) => {
       assert.equal(

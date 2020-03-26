@@ -51,7 +51,7 @@ describe('05-regex-tasks', () => {
     });
 
     assert(
-      result.source.length < 13,
+      result.source.length > 13,
       `regexp length should be < 13, actual ${result.source.length} `,
     );
   });

@@ -159,12 +159,12 @@ function retry(func, attempts) {
 function logger(func, logFunc) {
   return (...args) => {
     const newFn = function log() {
-    // console.log(func.name, '(');
+      console.log(func.name, '(');
       logFunc.apply(func, ...args);
-      // console.log(')starts');
-      // console.log(func.name, '(');
+      console.log(')starts');
+      console.log(func.name, '(');
       logFunc.apply(func, ...args);
-    // console.log(')ending');
+      console.log(')ending');
     };
     return newFn;
   };
