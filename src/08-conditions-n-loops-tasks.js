@@ -175,10 +175,7 @@ function isInsideCircle(circle, point) {
   const y2 = +Math.sqrt(circle.radius ** 2 - (point.x - circle.center.x) ** 2) + circle.center.y;
   const x1 = circle.center.x - circle.radius;
   const x2 = circle.center.x + circle.radius;
-  if (point.x > x1 && point.x < x2 && point.y > y1 && point.y < y2) {
-    return true;
-  }
-  return false;
+  return !!(point.x > x1 && point.x < x2 && point.y > y1 && point.y < y2);
 }
 
 
@@ -204,10 +201,7 @@ function findFirstSingleChar(str) {
       letter = letter.filter((el) => el !== str.slice(i, i + 1));
     }
   }
-  if (letter.length > 0) {
-    return letter[0];
-  }
-  return null;
+  return letter.length > 0 ? letter[0] : null;
 }
 
 
@@ -375,10 +369,16 @@ function getDigitalRoot(num) {
 function isBracketsBalanced(str) {
   const bracketsConfig = [['(', ')'], ['[', ']'], ['<', '>'], ['{', '}']];
   let s = str;
-  for (let i = 0; i < bracketsConfig.length;) {
-    if (s.includes(bracketsConfig[i].join(''))) {
-      s = s.replace(bracketsConfig[i].join(''), ''); i = 0;
-    } else { i += 1; }
+  let i = 0;
+  while (i < bracketsConfig.length) {
+    const bracketsTemplate = bracketsConfig[i].join('');
+    const finded = s.includes(bracketsTemplate);
+    if (finded) {
+      s = s.replace(bracketsTemplate, '');
+      i = 0;
+    } else {
+      i += 1;
+    }
   }
   return s === '';
 }
@@ -426,11 +426,9 @@ function getCommonDirectoryPath(pathes) {
   const element = (i) => (arr) => arr[i];
   const transform = (arr) => arr[0].map((e, i) => arr.map(element(i)));
   const check = (arr) => arr.every((e) => e === arr[0]);
-  if (pathes.every((e) => e.charAt() === '/')) {
-    return transform(splitStr(pathes, '/')).filter(check).map(element(0)).join('/')
-      .concat('/');
-  }
-  return transform(splitStr(pathes, '/')).filter(check).map(element(0)).join('/');
+  const begin = pathes.every((e) => e.charAt() === '/');
+  const result = transform(splitStr(pathes, '/')).filter(check).map(element(0)).join('/');
+  return begin ? result.concat('/') : result;
 }
 
 

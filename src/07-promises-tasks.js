@@ -33,15 +33,12 @@ function willYouMarryMe(isPositiveAnswer) {
     if (typeof isPositiveAnswer !== 'boolean') {
       reject(new Error('Wrong parameter is passed! Ask her again.'));
     } if (isPositiveAnswer === false) {
-      const falseMessage = 'Oh no, she said "No".';
-      resolve(falseMessage);
+      resolve('Oh no, she said "No".');
     } if (isPositiveAnswer === true) {
-      const successMessage = 'Hooray!!! She said "Yes"!';
-      resolve(successMessage);
+      resolve('Hooray!!! She said "Yes"!');
     }
   });
 }
-
 
 /**
  * Return Promise object that should be resolved with array containing plain values.

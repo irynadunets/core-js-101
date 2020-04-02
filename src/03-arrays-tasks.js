@@ -36,8 +36,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const arr = Array.from({ length: len }, (v, k) => 1 + 2 * k);
-  return arr;
+  return Array.from({ length: len }, (v, k) => 1 + 2 * k);
 }
 
 
@@ -201,8 +200,7 @@ function getTail(arr, n) {
  *    +'30,31,32,33,34'
  */
 function toCsvText(arr) {
-  arr.map((el) => el.toString());
-  return arr.join('\n');
+  return arr.map((el) => el.toString()).join('\n');
 }
 /**
  * Transforms the numeric array into the according array of squares:
@@ -299,8 +297,7 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-  arr.sort((a, b) => b - a);
-  return arr.slice(0, 3);
+  return arr.sort((a, b) => b - a).slice(0, 3);
 }
 
 
@@ -550,13 +547,13 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-  const mapGr = new Map();
+  const multimap = new Map();
   array.map((el) => {
     const key = keySelector(el);
-    if (mapGr.has(key)) return mapGr.get(key).push(valueSelector(el));
-    return mapGr.set(key, [valueSelector(el)]);
+    if (multimap.has(key)) return multimap.get(key).push(valueSelector(el));
+    return multimap.set(key, [valueSelector(el)]);
   });
-  return mapGr;
+  return multimap;
 }
 
 

@@ -23,13 +23,7 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(f, g) {
-  return function comp(x) {
-    return g(f(x));
-  };
-}
-
-
+const getComposition = (f, g) => (x) => f(g(x));
 /**
  * Returns the math power function with the specified exponent
  *
@@ -70,7 +64,7 @@ function getPolynom(...args) {
   return (x) => {
     let y;
     for (let i = 0; i < args.length; i += 1) {
-      y += x ** (args.length - 1 - i) * args[i];
+      y += args[i] * x ** (args.length - 1 - i);
     }
     return y;
   };
@@ -206,13 +200,13 @@ function partialUsingArguments(fn, ...args1) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-  let st = startFrom;
+  let nextIndex = startFrom;
   return function generator() {
-    st += 1;
-    return st - 1;
+    const result = nextIndex;
+    nextIndex += 1;
+    return result;
   };
 }
-
 
 module.exports = {
   getComposition,

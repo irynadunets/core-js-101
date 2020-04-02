@@ -56,12 +56,9 @@ function parseDataFromIso8601(value) {
 function isLeapYear(date) {
   const year = new Date(date).getFullYear();
   const d = 29;
-  // let lp;
   if (new Date(year, 1, d).getDate() === d) {
-    // console.log(`${year} is a leap year`);
     return true;
   }
-  // console.log(`${year} is not a leap year`);
   return false;
 }
 
