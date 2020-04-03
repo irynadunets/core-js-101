@@ -61,16 +61,17 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...args) {
-  return (x) => {
-    let y;
-    for (let i = 0; i < args.length; i += 1) {
-      y += args[i] * x ** (args.length - 1 - i);
-    }
-    return y;
-  };
+  if (args) {
+    return (x) => {
+      let y = 0;
+      for (let i = 0; i < args.length; i += 1) {
+        y += args[i] * x ** (args.length - 1 - i);
+      }
+      return y;
+    };
+  }
+  return null;
 }
-
-
 /**
  * Memoizes passed function and returns function
  * which invoked first time calls the passed function and then always returns cached result.
@@ -113,19 +114,18 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return (...args) => {
-    for (let i = 0; i < attempts; i += 1) {
+  return function () {
+    let i = attempts;
+    while (i > 0) {
       try {
-        func.call(this, ...args);
+        return func();
       } catch (e) {
-        if (attempts > 0) return attempts;
-        throw e;
+        i -= 1;
       }
     }
     return attempts;
   };
 }
-
 
 /**
  * Returns the logging wrapper for the specified method,
@@ -150,19 +150,18 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(func, logFunc) {
-  return (...args) => {
-    const newFn = function log() {
-      // console.log(func.name, '(');
-      logFunc.apply(func, ...args);
-      // console.log(')starts');
-      // console.log(func.name, '(');
-      logFunc.apply(func, ...args);
-      // console.log(')ending');
-    };
-    return newFn;
-  };
-}
+
+const logger = (fn, logFunc) => (...args) => {
+  try {
+    logFunc(`${fn.name}(${JSON.stringify(args).slice(1, -1)}) starts`);
+    const valueToReturn = fn(...args);
+    logFunc(`${fn.name}(${JSON.stringify(args).slice(1, -1)}) ends`);
+    return valueToReturn;
+  } catch (thrownError) {
+    logFunc(`${fn.name}: threw ${thrownError}`);
+    throw thrownError;
+  }
+};
 
 /**
  * Return the function with partial applied arguments
