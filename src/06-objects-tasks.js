@@ -113,9 +113,9 @@ function fromJSON(proto, json) {
  *  ).stringify()
  *    => 'div#main.container.draggable + table#data ~ tr:nth-of-type(even)   td:nth-of-type(even)'
  *
- *  For more examples see unit tests.
+ *  For more examples see unit tests
+ }
  */
-
 const cssSelectorBuilder = {
   element(/* value */) {
     throw new Error('Not implemented');
