@@ -425,7 +425,7 @@ describe('08-conditions-n-loops-tasks', () => {
   });
 
 
-  it.optional('getCommonDirectoryPath should return the n-ary string representation of number', () => {
+  it.optional('getCommonDirectoryPath should return a common path in the file system', () => {
     [
       {
         pathes: ['/web/images/image1.png', '/web/images/image2.png'],
@@ -558,7 +558,11 @@ describe('08-conditions-n-loops-tasks', () => {
       [X, X],
       [O, O, O],
       [X, undefined, X],
-    ],[
+    ], [
+      [undefined, undefined, undefined],
+      [X, undefined, X],
+      [O, O, O],
+    ], [
       [O, undefined, X],
       [O, X, X],
       [O, X],

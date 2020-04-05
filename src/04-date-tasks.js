@@ -117,11 +117,10 @@ function angleBetweenClockHands(date) {
   const m = date.getUTCMinutes();
   if (h > 12) h -= 12;
   let ang = Math.abs((h * 30) - (m * 6));
-  if (ang > 180) ang -= 180;
+  if (ang > 180) ang = 360 - ang;
   const rd = Math.PI / 180;
   return Math.abs(ang * rd);
 }
-
 
 module.exports = {
   parseDataFromRfc2822,
