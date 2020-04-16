@@ -101,7 +101,11 @@ function getFastestPromise(array) {
  */
 
 function chainPromises(array, action) {
-  return array.reduce(action, Promise.resolve());
+  return new Promise((resolve) => {
+    const obj = [];
+    array.forEach((p) => p.then((vl) => obj.push(vl)).catch(new Error('Error. Promise rejected')));
+    resolve(obj);
+  }).then((obj) => obj.reduce(action)).catch(new Error('Error'));
 }
 
 module.exports = {
